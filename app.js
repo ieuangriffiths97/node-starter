@@ -4,14 +4,21 @@ var fs = require('fs');
 
 var server = http.createServer(function(req,res){
     console.log('request was made: ' + req.url);
-    res.writeHead(200,{'Content-Type': 'text/html'});
-    var readStream = fs.createReadStream(__dirname + '/application/json', 'utf8');
-    var myObject = {
-        name: 'ieuan',
-        job: 'developer',
-        age: 21
-    };
-    res.end(JSON.stringify(myObject));    
+    if(req.url === '/home' || req.url === '/'){
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        fs.createReadStream(__dirname + '/index.html').pipe(res);
+    } else if(req.url === '/contact'){
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        fs.createReadStream(__dirname + '/contact.html').pipe(res);
+    } else if(req.url === '/api/ieuan'){
+        var ieuan = [{bench: '100kg x3', squat: '120kg x2', deadlift: '140kg x3'}, {breakfast: 'bacon, eggs, sausage', lunch: 'chicken rice and veg', dinner:'tomato pasta sauce, penna, beef mince'}];
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(ieuan));
+    }else{
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        fs.createReadStream(__dirname + '/404.html').pipe(res);
+    }
+
 });
 
 server.listen(3000, '127.0.0.1');
