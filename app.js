@@ -1,24 +1,12 @@
-var events = require('events');
+var http = require('http');
 
-var util = require('util');
+var server = http.createServer(function(req,res){
+    console.log('request was made: ' + req.url);
+    res.writeHead(200,{'Content-Type': 'text/plain'});
+    res.end('hello');
+    
+});
 
-var Person = function(name){
-    this.name = name;
-};
+server.listen(3000, '127.0.0.1');
+console.log('listening to port 3000');
 
-util.inherits(Person, events.EventEmitter);
-
-var ieuan = new Person('ieuan');
-var kenny = new Person('kenny');
-var tom = new Person('tom');
-
-var people = [ieuan,kenny,tom];
-
-people.forEach(function(person){
-    person.on('speak', function(msg){
-        console.log(person.name + ' said: ' + msg);
-    })
-})
-
-ieuan.emit('speak', 'hello');
-kenny.emit('speak', 'i am hungry')
