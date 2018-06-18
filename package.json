@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ieuangriffiths97/node-starter#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "uniqid": "^5.0.3"
   },
